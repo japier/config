@@ -104,15 +104,7 @@ export LC_CTYPE=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
-alias vi=nvim
-alias vim=nvim
-alias cls=clear
-alias katana="ssh ec2-user@katana.tubers.app"
-alias staging="ssh ninja@dashboard.staging.creator.ninja"
-alias you-prod="ssh ec2-user@13.115.33.165"
-alias passbolt="ssh ec2-user@54.238.163.110" # VPN required
-alias graphana="ssh ec2-user@18.179.23.243"
-
+. ~/.zsh_aliases
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
