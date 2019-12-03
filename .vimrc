@@ -1,9 +1,14 @@
 
 syntax enable
+syntax spell toplevel
 syntax on
+setlocal spell spelllang=en_us
+set spell
 set background=dark
 set fenc=utf-8
 set ruler
+set nocompatible
+
 
 set history=9999
 set formatoptions+=n
@@ -11,6 +16,7 @@ set formatoptions+=n
 
 filetype plugin on
 filetype indent on
+filetype off
 set clipboard+=unnamed
 
 set number
@@ -32,7 +38,6 @@ autocmd! bufwritepost .vimrc source %
 "New
 
 set nocompatible
-filetype off
 
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
@@ -50,9 +55,8 @@ Plugin 'cakebaker/scss-syntax.vim'
 Plugin 'scrooloose/nerdtree'
 Plugin 'scrooloose/nerdcommenter'
 Plugin 'jacoborus/tender'
-Plugin 'neomake/neomake'
 Plugin 'dougnukem/vim-swap-lines'
-Plugin 'mxw/vim-jsx'
+"Plugin 'mxw/vim-jsx'
 Plugin 'jelera/vim-javascript-syntax'
 Plugin 'vim-syntastic/syntastic'
 Plugin 'gcorne/vim-sass-lint'
@@ -64,22 +68,30 @@ Plugin 'Shougo/deoplete.nvim'
 Plugin 'carlitux/deoplete-ternjs'
 Plugin 'Yggdroot/indentLine'
 Plugin 'kien/ctrlp.vim'
-Plugin 'johngrib/vim-game-snake'
-Plugin 'johngrib/vim-game-code-break'
-Plugin 'SirVer/ultisnips'
-Plugin 'honza/vim-snippets'
+Plugin 'MarcWeber/vim-addon-mw-utils'
+Plugin 'tomtom/tlib_vim'
+Plugin 'garbas/vim-snipmate'
+Plugin 'grvcoelho/vim-javascript-snippets'
+Plugin 'w0rp/ale'
+Plugin 'heavenshell/vim-jsdoc'
+Plugin 'fatih/vim-go'
+Plugin 'mdempsky/gocode', {'rtp': 'nvim/'}
+Plugin 'majutsushi/tagbar'
+Plugin 'maksimr/vim-jsbeautify'
+Plugin 'deoplete-plugins/deoplete-go', { 'do': 'make'}
+Plugin 'zxqfl/tabnine-vim'
 
 "Neomake
-autocmd BufRead,BufWrite * :Neomake
-let g:neomake_javascript_enabled_makers = ['eslint']
+"autocmd BufRead,BufWrite * :Neomake
+"let g:neomake_javascript_enabled_makers = ['eslint']
+
+"Ale config <3
+let b:ale_linters = ['eslint']
 
 "Todos los pishis plugins
 
 call vundle#end()            " required
 filetype plugin indent on    " required
-
-"vim -jsx
-let g:jsx_ext_required = 0
 
 " Cntlp
 set wildignore+=*/tmp/*,*/bin/*,*/node_modules/*,*/bower_components/*,*/vendor/*,*.so,*.swp,*.zip,*.lock,*/vendor/*
@@ -99,6 +111,7 @@ imap jk <ESC>
 map <C-g> :GitGutterToggle<CR>
 nmap ]h <Plug>GitGutterNextHunk
 nmap [h <Plug>GitGutterPrevHunk
+nmap <C-m> :TagbarToggle<CR>
 
 set undofile
 set undodir=~/.vim/vimundo/
@@ -114,26 +127,35 @@ autocmd BufWritePre * %s/\s\+$//e
 
 "indent
 let g:indentLine_enabled = 1
+let g:indentLine_conceallevel = 0
 let g:indentLine_color_gui = '#444444'
+
+" Vim JSDoc
+nmap <silent> <C-m> <Plug>(jsdoc)
 
 
 " Deoplete
 set runtimepath+=/Users/jcastro/.vim/bundle/deoplete.nvim/rplugin/python3/deoplete
 let g:deoplete#enable_at_startup = 1
 let g:tern_request_timeout = 1
-let g:tern_show_signature_in_pum = '0'  " This do disable full signature type on autocomplete
+set completeopt-=preview
+
+" Deoplete-go
+let g:deoplete#sources#go#gocode_binary = $GOPATH.'/bin/gocode'
+let g:deoplete#sources#go#sort_class = ['package', 'func', 'type', 'var', 'const']
 
 "Add extra filetypes
 let g:tern#filetypes = [
                 \ 'jsx',
                 \ 'javascript.jsx',
+                \ 'styled',
                 \ 'vue',
                 \ '...'
                 \ ]
 
 
-let g:python3_host_prog = '/Users/jcastro/.pyenv/shims/python3'
-let g:python2_host_prog = '/Users/jcastro/.pyenv/shims/python2'
+let g:python_host_prog = '/Users/javiercastro/.pyenv/versions/neovim2/bin/python'
+let g:python3_host_prog = '/Users/javiercastro/.pyenv/versions/neovim3/bin/python'
 
 "Syntaxtic config"
 let g:syntatic_javascript_checkers = ['eslint']
@@ -143,3 +165,27 @@ let g:syntastic_sass_checkers=["sasslint"]
 let g:syntastic_scss_checkers=["sasslint"]
 autocmd BufNewFile,BufReadPre *.js{,x}  let b:syntastic_checkers = ['eslint']
 
+" silver searcher yo
+if executable('ag')
+  let g:ackprg = 'ag --vimgrep --smart-case'
+  cnoreabbrev ag Ack
+  cnoreabbrev aG Ack
+  cnoreabbrev Ag Ack
+  cnoreabbrev AG Ack
+endif
+
+" Vim-syntaxis tweeks
+let g:javascript_conceal_arrow_function="➡"
+let g:javascript_plugin_jsdoc=1
+set conceallevel=2
+
+" Do not jump to first result immediately! (ack/silver searcher)
+cnoreabbrev Ack Ack!
+nnoremap <Leader>a :Ack!<Space>
+
+" JS beautifier
+autocmd FileType javascript vnoremap <buffer>  <c-f> :call RangeJsBeautify()<cr>
+autocmd FileType json vnoremap <buffer> <c-f> :call RangeJsonBeautify()<cr>
+autocmd FileType jsx vnoremap <buffer> <c-f> :call RangeJsxBeautify()<cr>
+autocmd FileType html vnoremap <buffer> <c-f> :call RangeHtmlBeautify()<cr>
+autocmd FileType css vnoremap <buffer> <c-f> :call RangeCSSBeautify()<cr>
