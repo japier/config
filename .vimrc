@@ -8,6 +8,8 @@ set background=dark
 set fenc=utf-8
 set ruler
 set nocompatible
+"set listchars=eol:$,tab:->,trail:~,extends:>,precedes:<
+"set list
 
 
 set history=9999
@@ -135,7 +137,7 @@ nmap <silent> <C-m> <Plug>(jsdoc)
 
 
 " Deoplete
-set runtimepath+=/Users/jcastro/.vim/bundle/deoplete.nvim/rplugin/python3/deoplete
+set runtimepath+=/Users/javiercastro/.vim/bundle/deoplete.nvim/rplugin/python3/deoplete
 let g:deoplete#enable_at_startup = 1
 let g:tern_request_timeout = 1
 set completeopt-=preview

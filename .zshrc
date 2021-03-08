@@ -68,7 +68,7 @@ plugins=(
   z
   docker
   docker-compose
-  go
+  golang
 )
 
 source $ZSH/oh-my-zsh.sh
@@ -148,8 +148,11 @@ z() {
 export FZF_DEFAULT_COMMAND='rg --files --no-ignore-vcs --hidden'
 export HISTCONTROL=ignoreboth:erasedups
 
+# Flutter config
+export PATH="$PATH:/Users/javiercastro/repos/flutter/bin"
+
 # The next line updates PATH for the Google Cloud SDK.
-if [ -f '/Users/javiercastro/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/javiercastro/google-cloud-sdk/path.zsh.inc'; fi
+if [ -f '/Users/javiercastro/Downloads/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/javiercastro/Downloads/google-cloud-sdk/path.zsh.inc'; fi
 
 # The next line enables shell command completion for gcloud.
-if [ -f '/Users/javiercastro/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/javiercastro/google-cloud-sdk/completion.zsh.inc'; fi
+if [ -f '/Users/javiercastro/Downloads/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/javiercastro/Downloads/google-cloud-sdk/completion.zsh.inc'; fi
